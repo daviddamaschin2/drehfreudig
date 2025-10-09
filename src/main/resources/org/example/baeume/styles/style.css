@@ -1,97 +1,100 @@
 .glass-menu-button {
-     -fx-background-color:
-         linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.14), rgba(255,255,255,0.06)), /* soft overlay */
-         linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); /* subtle base */
-     -fx-background-insets: 0, 1;
-     -fx-background-radius: 12;
-     -fx-padding: 6 14 6 14;
-     -fx-text-fill: white;
-     -fx-font-weight: 600;
-     -fx-font-size: 13px;
-     -fx-border-color: rgba(255,255,255,0.28);
-     -fx-border-width: 1;
-     -fx-border-radius: 12;
-     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.30), 12, 0.3, 0, 3);
-     -fx-cursor: hand;
-     -fx-alignment: center-left;
- }
+    -fx-background-color:
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.14), rgba(255,255,255,0.06)), /* soft overlay */
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); /* subtle base */
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 12;
+    -fx-padding: 6 14 6 14;
+    -fx-border-color: rgba(255,255,255,0.3);
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.30), 12, 0.3, 0, 3),
+                innershadow(gaussian, rgba(0,0,0,0.15), 4, 0.3, 0, 1);
+    -fx-cursor: hand;
+}
 
- .glass-menu-button .label {
-     -fx-text-fill: #FFFFFF;
- }
+/*text innerhalb des Menu Buttons*/
+.glass-menu-button .label {
+    -fx-text-fill: #FFFFFF;
+}
 
- /* Slightly larger radius variant (optional) */
- .glass-menu-button.rounded {
-     -fx-background-radius: 18;
-     -fx-border-radius: 18;
- }
+/* Hover Effekt Menu Button */
+.glass-menu-button:hover {
+    -fx-background-color:
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.20), rgba(255,255,255,0.08)),
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    -fx-border-color: rgba(255,255,255,0.40);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 16, 0.35, 0, 5);
+    -fx-translate-y: -1; /* subtle "lift" */
+}
 
- /* Hover — brighten and lift */
- .glass-menu-button:hover {
-     -fx-background-color:
-         linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.20), rgba(255,255,255,0.08)),
-         linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-     -fx-border-color: rgba(255,255,255,0.40);
-     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.36), 16, 0.35, 0, 5);
-     -fx-translate-y: -1; /* subtle "lift" */
- }
+.glass-menu-button .arrow {
+    -fx-rotate: 270;
+}
 
- /* Pressed / armed state */
- .glass-menu-button:armed {
-     -fx-background-color:
-         linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.10), rgba(255,255,255,0.04)),
-         linear-gradient(from 0% 0% to 0% 100%, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
-     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.28), 8, 0.2, 0, 1);
-     -fx-translate-y: 0;
- }
+.glass-menu-button:showing .arrow {
+    -fx-rotate: 0;
+}
 
- /* Arrow button inside MenuButton: keep it consistent */
- .glass-menu-button .arrow-button {
-     -fx-background-color: transparent;
-     -fx-padding: 0 6 0 6;
- }
-
- /* Arrow icon color */
- .glass-menu-button .arrow {
-     -fx-shape: "M0 0 L1 0 L0.5 1 Z"; /* simple triangle if needed */
-     -fx-background-color: transparent;
-     -fx-fill: rgba(255,255,255,0.9);
- }
-
- /* ContextMenu / popup that appears when MenuButton opens */
- .context-menu {
-     -fx-background-color:
+/* Pressed / armed state */
+.glass-menu-button:armed {
+    -fx-background-color:
         linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.10), rgba(255,255,255,0.04)),
         linear-gradient(from 0% 0% to 0% 100%, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
-     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.28), 8, 0.2, 0, 1);
-     -fx-background-insets: 0, 1;
-     -fx-background-radius: 12;
-     -fx-border-color: rgba(255,255,255,0.28);
-     -fx-border-width: 1;
-     -fx-border-radius: 12;
-     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.30), 12, 0.3, 0, 3);
- }
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.28), 8, 0.2, 0, 1);
+    -fx-translate-y: 0;
+}
 
- /* Menu items inside the context menu */
- .context-menu .menu-item {
-     -fx-background-color: transparent;
-     -fx-text-fill: #FFFFFF;
-     -fx-padding: 8 14 8 14;
- }
+/* Hover Effekt soll bleiben solange in dem Context Menu interagiert wird */
+.glass-menu-button:showing {
+    -fx-background-color:
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.20), rgba(255,255,255,0.08)),
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    -fx-border-color: rgba(255,255,255,0.40);
+    -fx-effect:
+        dropshadow(gaussian, rgba(0,0,0,0.36), 16, 0.35, 0, 5),
+        innershadow(gaussian, rgba(0,0,0,0.15), 4, 0.3, 0, 1);
+    -fx-translate-y: -1;
+}
 
- /* Hover for menu items */
- .context-menu .menu-item:hover {
-     -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
-     -fx-text-fill: white;
- }
+.glass-menu-button .context-menu{
+-fx-translate-y:10;
+}
 
- /* Disabled look */
- .glass-menu-button:disabled, .context-menu .menu-item:disabled {
-     -fx-opacity: 0.55;
-     -fx-effect: none;
- }
+/* ContextMenu / popup that appears when MenuButton opens */
+.context-menu {
+    -fx-background-color:
+       linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.10), rgba(255,255,255,0.04)),
+       linear-gradient(from 0% 0% to 0% 100%, rgba(0,0,0,0.03), rgba(0,0,0,0.01));
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 12;
+    -fx-border-color: rgba(255,255,255,0.28);
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.30), 12, 0.3, 0, 3);
+}
 
- .gradient-bg {
-     -fx-background-color: linear-gradient(to bottom right, #233143, #698896);
-     -fx-padding: 10;               /* optional padding inside */
- }
+/* Menu items inside the context menu */
+.context-menu .menu-item {
+    -fx-background-color: transparent;
+    -fx-text-fill: #FFFFFF;
+    -fx-padding: 8 14 8 14;
+}
+
+/* Hover für Menu Items */
+.context-menu .menu-item:hover,
+.context-menu .menu-item:focused {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+    -fx-text-fill: white;
+}
+
+/* Label innerhalb der Menu Items */
+.context-menu .menu-item .label {
+    -fx-text-fill: #FFFFFF;
+}
+
+.gradient-bg {
+    -fx-background-color: linear-gradient(to bottom right, #233143, #698896);
+    -fx-padding: 10;
+}
+
