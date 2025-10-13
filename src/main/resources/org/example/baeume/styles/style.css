@@ -1,3 +1,29 @@
+.glass-button{
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color:
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.14), rgba(255,255,255,0.06)), /* soft overlay */
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); /* subtle base */
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 12;
+    -fx-padding: 6 14 6 14;
+    -fx-border-color: rgba(255,255,255,0.3);
+    -fx-border-width: 1;
+    -fx-border-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.30), 12, 0.3, 0, 3),
+                innershadow(gaussian, rgba(0,0,0,0.15), 4, 0.3, 0, 1);
+    -fx-cursor: hand;
+}
+
+.glass-button:hover {
+    -fx-background-color:
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.20), rgba(255,255,255,0.08)),
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    -fx-border-color: rgba(255,255,255,0.40);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 16, 0.35, 0, 5);
+    -fx-translate-y: -1; /* subtle "lift" */
+}
+
+
 .glass-menu-button {
     -fx-background-color:
         linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.14), rgba(255,255,255,0.06)), /* soft overlay */
@@ -96,5 +122,22 @@
 .gradient-bg {
     -fx-background-color: linear-gradient(to bottom right, #233143, #698896);
     -fx-padding: 10;
+}
+
+.rounded-rect {
+    -fx-stroke: rgba(255, 255, 255, 0.3);       /* border color */
+    -fx-stroke-width: 1;       /* border thickness */
+    -fx-arc-width: 30;         /* horizontal curve radius */
+    -fx-arc-height: 30;        /* vertical curve radius */
+}
+
+.glass-circle{
+    -fx-fill:
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.14), rgba(255,255,255,0.06)), /* soft overlay */
+        linear-gradient(from 0% 0% to 0% 100%, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); /* subtle base */
+    -fx-stroke: rgba(255,255,255,1);
+    -fx-stroke-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.30), 12, 0.3, 0, 3),
+                innershadow(gaussian, rgba(0,0,0,0.15), 4, 0.3, 0, 1);
 }
 

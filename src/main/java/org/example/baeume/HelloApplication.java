@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -23,7 +24,25 @@ public class HelloApplication extends Application {
         HelloController controller = loader.getController();
         controller.setStage(stage);
 
+        stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            controller.redraw();
+        });
+
+        stage.heightProperty().addListener((obs, oldVale, newVale)->{
+            controller.redraw();
+        });
+
+        stage.setMinWidth(400);
+        stage.setMinHeight(300);
+
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+        scene.setOnMouseClicked(event ->{
+            if(event.getButton() == MouseButton.PRIMARY){
+                controller.processClick(event);
+            }
+        });
+
         stage.setScene(scene);
         stage.show();
     }
