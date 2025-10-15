@@ -12,7 +12,7 @@
             <MenuItem text = "Open" onAction="#handleOpen"/>
             <MenuItem text = "Save" onAction="#handleSave"/>
             <MenuItem text = "Toggle Fullscreen" onAction="#fullScreen"/>
-            <MenuItem text = "Clear" onAction="#handleClear"/>
+            <MenuItem text = "Clear" onAction="#handleClearButton"/>
             <MenuItem text="test" onAction="#handleTest"/>
             <MenuItem text = "Exit" onAction="#exit"/>
         </items>

@@ -23,6 +23,7 @@ public class HelloApplication extends Application {
 
         HelloController controller = loader.getController();
         controller.setStage(stage);
+        stage.setTitle("Tree Visualizer");
 
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
             controller.redraw();
@@ -39,7 +40,10 @@ public class HelloApplication extends Application {
 
         scene.setOnMouseClicked(event ->{
             if(event.getButton() == MouseButton.PRIMARY){
-                controller.processClick(event);
+                controller.processClick(event, false);
+            }
+            else if(event.getButton() == MouseButton.SECONDARY){
+                controller.processClick(event, true);
             }
         });
 

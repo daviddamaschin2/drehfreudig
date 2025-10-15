@@ -141,3 +141,16 @@
                 innershadow(gaussian, rgba(0,0,0,0.15), 4, 0.3, 0, 1);
 }
 
+.glowing-line {
+    -fx-stroke: red;
+    -fx-stroke-width: 5;
+    -fx-effect: dropshadow(gaussian, red, 20, 0.8, 0, 0);
+}
+
+.glass-text {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(to bottom right, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.5), 5, 0.15, 0, 0);
+}
+
