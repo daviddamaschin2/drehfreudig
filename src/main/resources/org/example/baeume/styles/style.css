@@ -142,9 +142,10 @@
 }
 
 .glowing-line {
-    -fx-stroke: red;
-    -fx-stroke-width: 5;
-    -fx-effect: dropshadow(gaussian, red, 20, 0.8, 0, 0);
+    -fx-stroke: #f53902;
+    -fx-stroke-width: 1;
+    -fx-arc-width: 30;
+    -fx-arc-height: 30;
 }
 
 .glass-text {

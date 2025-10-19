@@ -83,7 +83,6 @@ public class TreeManager {
                 stepTroughString(currentNode.getParent(), treeFile, index + 1);
             } else {
                 //we are back at the root node and the string has been fully processed
-                System.out.println("Finished processing tree string.");
                 isTreeLoaded = true;
             }
         }
@@ -129,7 +128,6 @@ public class TreeManager {
             else {
                 if (node.getChildren() == null || node.getChildren().isEmpty()) {
                     node.addChild(new TreeNode(node));
-                    System.out.println("Added child to node.");
                 } else {
                     double childX = currentX;
                     for (TreeNode child : node.getChildren()) {
@@ -412,14 +410,15 @@ public class TreeManager {
         }
     }
 
-    public void drawRedLine(AnchorPane rootPane, double startX, double startY, double endX, double endY, double strokeWidth){
-        Line line = new Line();
-        line.setStartX(startX);
-        line.setStartY(startY);
-        line.setEndX(endX);
-        line.setEndY(endY);
-        line.getStyleClass().add("glowing-line");
-        rootPane.getChildren().add(line);
+    public void drawRedLine(AnchorPane rootPane, double startX, double startY, double width, double height){
+        Rectangle rect = new Rectangle();
+        rect.setWidth(width);
+        rect.setHeight(height);
+        rect.setX(startX);
+        rect.setY(startY);
+        rect.setFill(new Color(0.92, 0.25, 0.2, 0.15));
+        rect.getStyleClass().add("glowing-line");
+        rootPane.getChildren().add(rect);
 
     }
 
