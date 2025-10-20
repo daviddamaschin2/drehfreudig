@@ -74,7 +74,8 @@ public class HelloController {
             if(treeManager.isTreeLoaded()) {
                 handleClear();
                 treeManager.makeEditable(true);
-                treeManager.drawTree(rootPane, PADDING +200, PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-4*PADDING);
+                treeManager.setFlipped(false);
+                treeManager.drawTree(rootPane, PADDING +200, PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-4*PADDING, false);
                 rootPane.getChildren().add(flipButton);
             }
         });
@@ -91,7 +92,7 @@ public class HelloController {
     private void handleNew(){
         handleClear();
         treeManager.newEmptyTree();
-        treeManager.drawTree(rootPane, PADDING +200, PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-4*PADDING);
+        treeManager.drawTree(rootPane, PADDING +200, PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-4*PADDING, false);
         treeManager.makeEditable(true);
         stage.setTitle("Tree Visualizer - New Tree");
     }
@@ -114,7 +115,7 @@ public class HelloController {
                 //adding menu button again since it is also removed
                 rootPane.getChildren().add(menuButton);
                 //drawing boxes for current tree
-                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-5*PADDING);
+                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-5*PADDING, false);
 
                 flipButton.setLayoutX((stage.getWidth()-2*PADDING-200)/2 + 200+10);
                 flipButton.setLayoutY(stage.getHeight()-2*PADDING+10);
@@ -189,42 +190,17 @@ public class HelloController {
         javafx.application.Platform.exit();
     }
 
-    @FXML
-    private void handleTest(){
-        //loading test tree from every test file
-        for(int i = 1; i <=15; i++){
-            //files with single digit numbers have a leading zero so they need to be handled differently
-            if(i < 10){
-                try(BufferedReader br = new BufferedReader(new FileReader("src/main/resources/org/example/baeume/trees/drehfreudig0" + i + ".txt"))){
-                    //reading entire line and passing it to treeManager to construct tree from current test file
-                    String line = br.readLine();
-                    treeManager.loadTreeFromFile(line);
-                }catch(Exception e){
-                    System.out.println("Error: " + e.getMessage());
-                }
-            }
-            else{
-                try(BufferedReader br = new BufferedReader(new FileReader("src/main/resources/org/example/baeume/trees/drehfreudig" + i + ".txt"))){
-                    //reading entire line and passing it to treeManager to construct tree from current test file
-                    String line = br.readLine();
-                    treeManager.loadTreeFromFile(line);
-                }catch(Exception e){
-                    System.out.println("Error: " + e.getMessage());
-                }
-            }
-        }
-    }
-
     private void handleFlip(){
         handleClear();
-        treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2);
+        treeManager.setFlipped(true);
+        treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, false);
         flipText.setX(PADDING +200 + (stage.getWidth()-2*PADDING-200)/2 - 80);
         if(treeManager.checkIfTreeCanBeFlipped()){
-            treeManager.drawReversedTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2-PADDING-20, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2);
+            treeManager.drawTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2-PADDING-20, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, true);
             flipText.setText("Tree can be flipped");
         }
         else{
-            treeManager.drawReversedTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2+PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2);
+            treeManager.drawTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2+PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, true);
             treeManager.drawRedLine(rootPane, PADDING +200, 2*PADDING + (stage.getHeight()-4*PADDING)/2 -PADDING/2, stage.getWidth()-2*PADDING-200, PADDING);
             flipText.setText("Tree cannot be flipped");
         }
@@ -265,13 +241,13 @@ public class HelloController {
             if(treeManager.isTreeFlipped()){
                 handleClear();
                 flipText.setX(PADDING +200 + (stage.getWidth()-2*PADDING-200)/2 - 80);
-                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2);
+                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, false);
                 if(treeManager.checkIfTreeCanBeFlipped()){
-                    treeManager.drawReversedTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2-PADDING-20, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2);
+                    treeManager.drawTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2-PADDING-20, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, true);
                     flipText.setText("Tree can be flipped");
                 }
                 else{
-                    treeManager.drawReversedTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2+PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2);
+                    treeManager.drawTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2+PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, true);
                     treeManager.drawRedLine(rootPane, PADDING +200, 2*PADDING + (stage.getHeight()-4*PADDING)/2 -PADDING/2, stage.getWidth()-2*PADDING-200, PADDING);
                     flipText.setText("Tree cannot be flipped");
                 }
@@ -280,7 +256,7 @@ public class HelloController {
                 rootPane.getChildren().add(editTreeButton);
                 rootPane.getChildren().add(flipText);
             }else{
-                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-5*PADDING);
+                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-5*PADDING, false);
 
                 flipButton.setLayoutX((stage.getWidth()-2*PADDING-200)/2 + 200+10);
                 flipButton.setLayoutY(stage.getHeight()-2*PADDING+10);
