@@ -107,16 +107,7 @@ public class HelloController {
             stage.setTitle("Tree Visualizer - " + selectedFile.getName());
 
             if(treeManager.isTreeLoaded()){
-                //removing all existing boxes
-                rootPane.getChildren().clear();
-                //adding menu button again since it is also removed
-                rootPane.getChildren().add(menuButton);
-                //drawing boxes for current tree
                 redraw();
-
-                flipButton.setLayoutX((stage.getWidth()-2*PADDING-200)/2 + 200+10);
-                flipButton.setLayoutY(stage.getHeight()-2*PADDING+10);
-                rootPane.getChildren().add(flipButton);
                 treeManager.makeEditable(true);
             }
 
