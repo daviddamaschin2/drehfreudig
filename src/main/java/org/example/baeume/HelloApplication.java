@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -24,6 +25,9 @@ public class HelloApplication extends Application {
         HelloController controller = loader.getController();
         controller.setStage(stage);
         stage.setTitle("Tree Visualizer");
+
+        Image icon = new Image(getClass().getResource("images/Icon.png").toExternalForm());
+        stage.getIcons().add(icon);
 
         stage.widthProperty().addListener((obs, oldVal, newVal) -> {
             controller.redraw();

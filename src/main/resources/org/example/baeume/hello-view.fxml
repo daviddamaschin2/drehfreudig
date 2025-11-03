@@ -11,6 +11,7 @@
             <MenuItem text = "New" onAction="#handleNew"/>
             <MenuItem text = "Open" onAction="#handleOpen"/>
             <MenuItem text = "Save" onAction="#handleSave"/>
+            <MenuItem text = "Toggle show Width" onAction="#handleWidth"/>
             <MenuItem text = "Toggle Fullscreen" onAction="#fullScreen"/>
             <MenuItem text = "Clear" onAction="#handleClearButton"/>
             <MenuItem text = "Exit" onAction="#exit"/>

@@ -5,6 +5,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class TreeManager {
 
@@ -24,36 +26,34 @@ public class TreeManager {
     private static final double LINE_WIDTH = 1.0;
 
 
-    public boolean loadTreeFromFile(String treeFile) {
+    public void loadTreeFromFile(String treeFile) {
         isTreeLoaded = false;
 
-        //checking that File isn't empty
+        //check that File isnt empty
         if (treeFile == null || treeFile.isEmpty()) {
             System.out.println("Tree file is empty!");
-            return false;
+            return;
         }
 
-        //checking if all tree characters are valid
+        //check if all tree characters are valid
         for(int i = 0; i < treeFile.length(); i++){
             if(treeFile.charAt(i) != '(' && treeFile.charAt(i) != ')'){
                 System.out.println("Invalid character in file!");
-                return false; // stopping processing on invalid file
+                return; // stopping processing on invalid file
             }
         }
-        //checking if tree string starts with '(' and then stepping through the string character by character
+        //checking if tree string starts with ( and then stepping through the string character by character
         if(treeFile.charAt(0) == '('){
             TreeNode rootNode = new TreeNode();
             rootNode.setWidth(1);
             tree = new Tree(rootNode);
-            int index = 1; // start after the first '('
+            int index = 1; // start after the first (
             parseTreeString(rootNode, treeFile, index);
             calculateWidth(rootNode); //calculating width of each node, this is needed for drawing the tree and checking if the tree can be flipped
             isTreeLoaded = true;
-            return true;
         }
         else{
             System.out.println("Invalid tree string!");
-            return false;
         }
     }
 
@@ -104,12 +104,12 @@ public class TreeManager {
         return isTreeLoaded;
     }
 
-    public void drawTree(AnchorPane rootPane, int offsetX, int offsetY, int boxWidth, int boxHeight, boolean reversed){
+    public void drawTree(AnchorPane rootPane, int offsetX, int offsetY, int boxWidth, int boxHeight, boolean reversed, boolean showNums){
         if(!isTreeLoaded) return;
         int layerAmount = tree.getLayers();
 
         // Draw starting from the root at position 0
-        drawNode(rootPane, tree.getRootTreeNode(), 0, 0, offsetX, offsetY, boxWidth, boxHeight, layerAmount, reversed);
+        drawNode(rootPane, tree.getRootTreeNode(), 0, 0, offsetX, offsetY, boxWidth, boxHeight, layerAmount, reversed, showNums);
     }
 
     public int[] getBoxDimensions(){
@@ -168,7 +168,7 @@ public class TreeManager {
     }
 
     private void drawNode(AnchorPane rootPane, TreeNode node, int layer, double currentX,
-                          int offsetX, int offsetY, int boxWidth, int boxHeight, int layerAmount, boolean reversed) {
+                          int offsetX, int offsetY, int boxWidth, int boxHeight, int layerAmount, boolean reversed, boolean showNums) {
 
         final double nodeRadius = calculateNodeRadius(boxWidth, boxHeight);
         this.boxHeight = boxHeight;
@@ -233,6 +233,21 @@ public class TreeManager {
         circle.getStyleClass().add("glass-circle");
         rootPane.getChildren().add(circle);
 
+        //Drawing text inside node
+        if(showNums){
+            String valueText = String.valueOf(node.getWidth());
+            Text text = new Text(valueText);
+            double maxFontSize = calculateMaxFontSize(text, nodeRadius*2*0.7, nodeRadius*2*0.7);
+            text.setFont(Font.font(maxFontSize));
+            text.setX(node.getXPos());
+            text.setY(node.getYPos());
+            javafx.geometry.Bounds textBounds = text.getBoundsInLocal();
+            text.setX(node.getXPos() - textBounds.getWidth() / 2);
+            text.setY(node.getYPos() + textBounds.getHeight() / 4);
+            text.setFill(Color.WHITE);
+            rootPane.getChildren().add(text);
+        }
+
         // Drawing lines to parent node (if not root)
         if(node.getParent() != null){
             Line line = new Line();
@@ -255,11 +270,33 @@ public class TreeManager {
         if(!isLeaf) {
             double childX = currentX;
             for(TreeNode child : node.getChildren()) {
-                drawNode(rootPane, child, layer + 1, childX, offsetX, offsetY, boxWidth, boxHeight, layerAmount, reversed);
+                drawNode(rootPane, child, layer + 1, childX, offsetX, offsetY, boxWidth, boxHeight, layerAmount, reversed, showNums);
                 double childPixelWidth = boxWidth / child.getWidth();
                 childX += childPixelWidth;
             }
         }
+    }
+
+    private double calculateMaxFontSize(Text text, double maxWidth, double maxHeight){
+        double low = 1;
+        double high = 200; //upper bound
+        double result = 1;
+
+        while (high - low > 0.1){
+            double mid = (low + high) / 2;
+            text.setFont(Font.font(mid));
+
+            javafx.geometry.Bounds bounds = text.getBoundsInLocal();
+
+            if(bounds.getWidth() <= maxWidth && bounds.getHeight() <= maxHeight){
+                result = mid;
+                low = mid;
+            }
+            else{
+                high = mid;
+            }
+        }
+        return result;
     }
 
     public boolean checkIfTreeCanBeFlipped(){

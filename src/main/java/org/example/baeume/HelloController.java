@@ -34,6 +34,8 @@ public class HelloController {
 
     final int PADDING = 50; // distance to the border of the window
 
+    boolean showNums;
+
 
     @FXML
     private void initialize() {
@@ -57,12 +59,6 @@ public class HelloController {
         flipButton.getStyleClass().add("glass-button");
         flipButton.setOnAction(actionEvent -> {
             handleFlip();
-            if(treeManager.checkIfTreeCanBeFlipped()){
-                System.out.println("Tree can be flipped");
-            }
-            else{
-                System.out.println("Tree cannot be flipped");
-            }
         });
 
         //setting up edit tree button
@@ -75,8 +71,7 @@ public class HelloController {
                 handleClear();
                 treeManager.makeEditable(true);
                 treeManager.setFlipped(false);
-                treeManager.drawTree(rootPane, PADDING +200, PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-4*PADDING, false);
-                rootPane.getChildren().add(flipButton);
+                redraw();
             }
         });
 
@@ -85,6 +80,8 @@ public class HelloController {
         flipText.setFill(Color.WHITE);
         flipText.setY(80);
         flipText.getStyleClass().add("glass-text");
+
+        showNums = false;
     }
 
 
@@ -92,7 +89,7 @@ public class HelloController {
     private void handleNew(){
         handleClear();
         treeManager.newEmptyTree();
-        treeManager.drawTree(rootPane, PADDING +200, PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-4*PADDING, false);
+        redraw();
         treeManager.makeEditable(true);
         stage.setTitle("Tree Visualizer - New Tree");
     }
@@ -115,7 +112,7 @@ public class HelloController {
                 //adding menu button again since it is also removed
                 rootPane.getChildren().add(menuButton);
                 //drawing boxes for current tree
-                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-5*PADDING, false);
+                redraw();
 
                 flipButton.setLayoutX((stage.getWidth()-2*PADDING-200)/2 + 200+10);
                 flipButton.setLayoutY(stage.getHeight()-2*PADDING+10);
@@ -159,6 +156,12 @@ public class HelloController {
     }
 
     @FXML
+    private void handleWidth(){
+        showNums = !showNums;
+        redraw();
+    }
+
+    @FXML
     private void fullScreen(){
         //setting stage to fullscreen and back
         if(stage!= null){
@@ -193,22 +196,8 @@ public class HelloController {
     private void handleFlip(){
         handleClear();
         treeManager.setFlipped(true);
-        treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, false);
-        flipText.setX(PADDING +200 + (stage.getWidth()-2*PADDING-200)/2 - 80);
-        if(treeManager.checkIfTreeCanBeFlipped()){
-            treeManager.drawTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2-PADDING-20, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, true);
-            flipText.setText("Tree can be flipped");
-        }
-        else{
-            treeManager.drawTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2+PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, true);
-            treeManager.drawRedLine(rootPane, PADDING +200, 2*PADDING + (stage.getHeight()-4*PADDING)/2 -PADDING/2, stage.getWidth()-2*PADDING-200, PADDING);
-            flipText.setText("Tree cannot be flipped");
-        }
+        redraw();
         treeManager.makeEditable(false);
-        editTreeButton.setLayoutX((stage.getWidth()-2*PADDING-200)/2 + 200+10);
-        editTreeButton.setLayoutY(stage.getHeight()-2*PADDING+10);
-        rootPane.getChildren().add(editTreeButton);
-        rootPane.getChildren().add(flipText);
     }
 
     public void setStage(Stage stage) {
@@ -241,13 +230,13 @@ public class HelloController {
             if(treeManager.isTreeFlipped()){
                 handleClear();
                 flipText.setX(PADDING +200 + (stage.getWidth()-2*PADDING-200)/2 - 80);
-                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, false);
+                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, false, showNums);
                 if(treeManager.checkIfTreeCanBeFlipped()){
-                    treeManager.drawTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2-PADDING-20, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, true);
+                    treeManager.drawTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2-PADDING-20, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, true, showNums);
                     flipText.setText("Tree can be flipped");
                 }
                 else{
-                    treeManager.drawTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2+PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, true);
+                    treeManager.drawTree(rootPane, PADDING+200, 2*PADDING + ((int)stage.getHeight()-4*PADDING)/2+PADDING, (int)stage.getWidth()-2*PADDING-200, ((int)stage.getHeight()-5*PADDING)/2-PADDING/2, true, showNums);
                     treeManager.drawRedLine(rootPane, PADDING +200, 2*PADDING + (stage.getHeight()-4*PADDING)/2 -PADDING/2, stage.getWidth()-2*PADDING-200, PADDING);
                     flipText.setText("Tree cannot be flipped");
                 }
@@ -256,7 +245,7 @@ public class HelloController {
                 rootPane.getChildren().add(editTreeButton);
                 rootPane.getChildren().add(flipText);
             }else{
-                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-5*PADDING, false);
+                treeManager.drawTree(rootPane, PADDING +200, 2*PADDING, (int)stage.getWidth()-2*PADDING-200, (int)stage.getHeight()-5*PADDING, false, showNums);
 
                 flipButton.setLayoutX((stage.getWidth()-2*PADDING-200)/2 + 200+10);
                 flipButton.setLayoutY(stage.getHeight()-2*PADDING+10);

@@ -120,7 +120,7 @@
 }
 
 .gradient-bg {
-    -fx-background-color: linear-gradient(to bottom right, #233143, #698896);
+    -fx-background-color: linear-gradient(to bottom right, #2C3E75, #7082D9);
     -fx-padding: 10;
 }
 
