@@ -68,3 +68,7 @@ public class TreeNode {
         return width;
     }
 }
+//lim a --> b lim c --> lim c --> a
+//intelj ist scheiße ~jonthan
+//netbeans besser
+// neuronale Netzwerke sind scheiße
